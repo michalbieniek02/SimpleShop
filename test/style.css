@@ -4,6 +4,7 @@ body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f0f0f0;
 }
 
 nav {
@@ -11,7 +12,7 @@ nav {
     font-style: italic; 
     font-weight: 200;
     background-color: #135a70;
-    padding-left: 10px ;
+    padding-left: 10px;
     align-items: center;
     justify-content: space-between;
     width:100%;
@@ -44,6 +45,10 @@ nav ul li a:hover {
 
 #content {
     padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+    justify-content: center;
 }
 
 .footer-container {
@@ -127,3 +132,92 @@ nav ul li a:hover {
     font-size: small;
     margin: 0.5rem 0;
   }
+
+  .card{
+    text-align: center;
+    color: #135a70;
+    font-style: italic;
+    display:block;
+    padding: 10px;
+    background-color: rgb(232, 232, 232);
+    width: fit-content;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    min-width: 250px;
+    
+    
+  }
+
+  .card img{
+    height: 200px;
+    width: 200px;
+  }
+
+  .card button{
+    font-weight: 500;
+    font-size: large;
+    border: none;
+    border-radius:30px;
+    
+    color: #fff; 
+    transition: background-color 0.3s; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+  .card-plus {
+    padding-left: 7px;
+    padding-right: 7px;
+    background-color: rgba(0, 128, 0, 0.426);
+  }
+  .card-minus{
+    margin: 10px;
+    padding-left: 9px;
+    padding-right: 9px;
+    background-color: rgba(255, 0, 0, 0.264);
+  }
+  .card button:hover {
+    background-color: #888888; 
+  }
+
+  .card button:active {
+    background-color: #000000; 
+    box-shadow: none;
+  }
+
+  .cart-icon{
+    cursor: pointer;
+  }
+
+.cart-badge{
+  font-weight: lighter;
+  color: white;
+}
+
+.sidecart{
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 350px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: -10px 0 15p lightgray;
+  visibility: hidden;
+  transition: all 0.3s;
+  justify-content: center;
+}
+.cart-content{
+  height: 100%;
+  display: flex ;
+  flex-direction: column;
+}
+.sidecart img{
+  cursor: pointer;
+  width: 50px;
+}
+.cart-row{
+text-align: end;}
+
+.total{
+  position: absolute;
+  bottom: 20%;
+}

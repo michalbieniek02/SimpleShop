@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const pages = [
         { name: 'Products', content: [] },
-        { name: 'About Us', content: 'About' },
-        { name: 'Cart', content: 'Contact' }
+        { name: 'About Us', content: 'About' }
+        
     ];
 
     const products = [
@@ -28,12 +28,87 @@ document.addEventListener('DOMContentLoaded', function () {
         { name: 'Lemon Haze', price: 18.90, image: './assets/zaza/lemonhaze.jpeg' }
     ];
 
+    const cartList = [];
+
     pages[0].content = products;
 
     const navbar = document.createElement('nav');
     const ul = document.createElement('ul');
+
     const title = document.createElement('img');
     title.src = './assets/blue_logo.jpg'
+
+    const cart = document.createElement('img')
+    cart.src = './assets/cart.png'
+    cart.className="cart-icon"
+
+    cart.addEventListener('click',function (){
+        document.body.appendChild(sidebar)
+        sidebar.style.visibility = "visible"
+        updateCartDisplay()
+    })
+
+    let totalCartPrice = 0;
+    function updateCartDisplay() {
+        cartItems.innerHTML = '';
+    
+        cartList.forEach(item => {
+            const cartItemRow = document.createElement('div');
+            cartItemRow.className = "cart-row"
+            cartItemRow.classList.add('cart-item-row');
+    
+            const itemName = document.createElement('span');
+            itemName.textContent = item.name+ "\t-\t";
+    
+            const itemTotalPrice = document.createElement('span');
+            let price = (item.price * item.quantity).toFixed(2)
+            totalCartPrice+=Number(price);
+            itemTotalPrice.textContent = price+"$";
+    
+            
+            cartItemRow.appendChild(itemName);
+            cartItemRow.appendChild(itemTotalPrice);
+            
+            cartItems.appendChild(cartItemRow);
+        });
+        const totalPrice = document.createElement('span')
+        cartItems.appendChild(totalPrice)
+        totalPrice.className = "total"
+        totalPrice.innerText = "Total: "+totalCartPrice.toFixed(2)+"$"
+    
+        updateCartBadge();
+    }
+    
+    
+    const sidebar = document.createElement('div')
+    const cartContent = document.createElement('div')
+    const cartHeader = document.createElement('div')
+    const cartItems = document.createElement('div')
+    const cartActions = document.createElement('div')
+    const image = document.createElement('img')
+    image.src = './assets/black-cart.png'
+    cartItems.innerText = cartList.forEach(element => {
+        element.name + element.quantity + element.price
+    });
+    
+    sidebar.className = 'sidecart'
+    cartContent.className = 'cart-content'
+    cartHeader.className = 'cart-header'
+    cartItems.className = 'cart-items'
+    cartActions.className = 'cart-actions' 
+    
+    image.addEventListener("click",function (){
+        sidebar.style.visibility = "hidden"
+    })
+    
+    sidebar.appendChild(cartContent)
+    cartContent.appendChild(cartHeader)
+    cartHeader.appendChild(image)
+    cartContent.appendChild(cartItems)
+    cartContent.appendChild(cartActions)
+    
+    
+    
     pages.forEach(page => {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -45,9 +120,9 @@ document.addEventListener('DOMContentLoaded', function () {
         li.appendChild(a);
         ul.appendChild(li);
     });
-    
     navbar.appendChild(title)
     navbar.appendChild(ul);
+    ul.appendChild(cart)
     document.body.appendChild(navbar);
 
     const contentDiv = document.createElement('div');
@@ -117,19 +192,19 @@ document.addEventListener('DOMContentLoaded', function () {
         socialIcons.className = 'social-icons';
       
         const fbIcon = document.createElement('img');
-        fbIcon.src = './assets/fb.png';
+        fbIcon.src = './assets/footer/fb.png';
         socialIcons.appendChild(fbIcon);
       
         const xIcon = document.createElement('img');
-        xIcon.src = './assets/x.png';
+        xIcon.src = './assets/footer/x.png';
         socialIcons.appendChild(xIcon);
       
         const igIcon = document.createElement('img');
-        igIcon.src = './assets/ig.png';
+        igIcon.src = './assets/footer/ig.png';
         socialIcons.appendChild(igIcon);
       
         const linkedinIcon = document.createElement('img');
-        linkedinIcon.src = './assets/linkd.png';
+        linkedinIcon.src = './assets/footer/linkd.png';
         socialIcons.appendChild(linkedinIcon);
       
         rightSection.appendChild(socialIcons);
@@ -177,30 +252,78 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const image = document.createElement('img');
                 image.src = product.image;
-                
+                image.className = 'card-img';
+
                 const name = document.createElement('h2');
                 name.textContent = product.name;
-                card.appendChild(name);
-                card.appendChild(image);
+                name.className = 'card-name';
 
                 const price = document.createElement('p');
                 price.textContent = '$' + product.price.toFixed(2);
-                card.appendChild(price);
 
                 const plusButton = document.createElement('button')
                 plusButton.innerHTML = '+' 
-                const minusButton = document.createElement('button') 
-                minusButton.innerHTML = '-'
+                plusButton.className = 'card-plus';
+                plusButton.addEventListener('click', function () {
+                    addToCart(product);
+                });
 
-                card.appendChild(minusButton)
-                card.appendChild(plusButton)
+                const minusButton = document.createElement('button') 
+                minusButton.innerHTML = '-';
+                minusButton.className = 'card-minus';
+                minusButton.addEventListener('click', function () {
+                    removeFromCart(product);
+                });
+
+                card.appendChild(name);
+                card.appendChild(image);
+                card.appendChild(price);
+                card.appendChild(minusButton);
+                card.appendChild(plusButton);
 
                 contentDiv.appendChild(card);
             });
-        } else { 
+        } else {
             const div = document.createElement('div');
             div.innerHTML = newContent;
             contentDiv.appendChild(div);
+        }
+    }
+    const badge = document.createElement('span');
+    badge.className = 'cart-badge';
+    ul.appendChild(badge);
+
+    function updateCartBadge() {
+        const totalItems = cartList.reduce((acc, item) => acc + item.quantity, 0);
+        badge.textContent = totalItems > 0 ? totalItems : '';
+    }
+
+    function addToCart(product) {
+        const existingCartItem = cartList.find(item => item.name === product.name);
+        if (existingCartItem) {
+            existingCartItem.quantity++;
+        } else {
+            cartList.push({
+                name: product.name,
+                price: product.price,
+                quantity: 1
+            });
+        }
+        updateCartBadge()
+        console.log('Cart:', cartList);
+    }
+
+    function removeFromCart(product) {
+        const existingCartItemIndex = cartList.findIndex(item => item.name === product.name);
+        if (existingCartItemIndex !== -1) {
+            const existingCartItem = cartList[existingCartItemIndex];
+            if (existingCartItem.quantity > 1) {
+                existingCartItem.quantity--;
+            } else {
+                cartList.splice(existingCartItemIndex, 1);
+            }
+            updateCartBadge()
+            console.log('Cart:', cartList);
         }
     }
 

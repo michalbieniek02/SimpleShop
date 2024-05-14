@@ -13,17 +13,17 @@ nav {
     background-color: #135a70;
     padding-left: 10px ;
     align-items: center;
+    justify-content: space-between;
+    width:100%;
 }
 
 nav img {
     max-width: fit-content;
-    
-    
 }
 
 nav ul {
     list-style-type: none;
-    padding-left: 10rem;
+    padding-right: 2rem;
     display: flex;
     flex-wrap:wrap;
 }

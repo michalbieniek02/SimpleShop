@@ -1,9 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
     const pages = [
-        { name: 'Products', content: '<h1>Home</h1><p>chuj</p>' },
+        { name: 'Products', content: [] },
         { name: 'About Us', content: 'About' },
         { name: 'Cart', content: 'Contact' }
     ];
+
+    const products = [
+        { name: 'OG Kush', price: 12.45, image: './assets/zaza/og-kush.jpeg' },
+        { name: 'Sour Diesel', price: 18.75, image: './assets/zaza/sour-diesel.jpeg' },
+        { name: 'Girl Scout Cookies', price: 21.30, image: './assets/zaza/cookies-automatic.jpeg' },
+        { name: 'Blue Dream', price: 16.80, image: './assets/zaza/berry.jpeg' },
+        { name: 'Green Crack', price: 14.25, image: './assets/zaza/green-punch.jpeg' },
+        { name: 'White Widow', price: 20.10, image: './assets/zaza/white-widow.jpeg' },
+        { name: 'Pineapple Express', price: 19.50, image: './assets/zaza/pineapple-kush.webp' },
+        { name: 'AK-47', price: 23.15, image: './assets/zaza/ak-automatic.jpeg' },
+        { name: 'Northern Lights', price: 11.90, image: './assets/zaza/northern-light.jpeg' },
+        { name: 'Jack Herer', price: 17.60, image: './assets/zaza/jack-herer.jpeg' },
+        { name: 'Bubba Kush', price: 22.80, image: './assets/zaza/buba-kush.jpeg' },
+        { name: 'Purple Haze', price: 13.75, image: './assets/zaza/purple-cbd.jpeg' },
+        { name: 'Super Silver Haze', price: 24.00, image: './assets/zaza/shining-silver-haze.jpeg' },
+        { name: 'Gelato', price: 10.60, image: './assets/zaza/gelato-automatic.jpeg' },
+        { name: 'Trainwreck', price: 18.20, image: './assets/zaza/trainwreck.jpeg' },
+        { name: 'Chemdawg', price: 14.90, image: './assets/zaza/dog.jpeg' },
+        { name: 'Bruce Banner', price: 21.80, image: './assets/zaza/hulkberry-automatic.jpeg' },
+        { name: 'Granddaddy Purple', price: 20.25, image: './assets/zaza/granddaddy-purple.jpeg' },
+        { name: 'Blueberry', price: 13.20, image: './assets/zaza/blueberry-automatic.jpeg' },
+        { name: 'Lemon Haze', price: 18.90, image: './assets/zaza/lemonhaze.jpeg' }
+    ];
+
+    pages[0].content = products;
 
     const navbar = document.createElement('nav');
     const ul = document.createElement('ul');
@@ -144,9 +169,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateContent(newContent) {
         contentDiv.innerHTML = '';
-        const div = document.createElement('div');
-        div.innerHTML = newContent;
-        contentDiv.appendChild(div);
+
+        if (Array.isArray(newContent)) {
+            newContent.forEach(product => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const image = document.createElement('img');
+                image.src = product.image;
+                
+                const name = document.createElement('h2');
+                name.textContent = product.name;
+                card.appendChild(name);
+                card.appendChild(image);
+
+                const price = document.createElement('p');
+                price.textContent = '$' + product.price.toFixed(2);
+                card.appendChild(price);
+
+                const plusButton = document.createElement('button')
+                plusButton.innerHTML = '+' 
+                const minusButton = document.createElement('button') 
+                minusButton.innerHTML = '-'
+
+                card.appendChild(minusButton)
+                card.appendChild(plusButton)
+
+                contentDiv.appendChild(card);
+            });
+        } else { 
+            const div = document.createElement('div');
+            div.innerHTML = newContent;
+            contentDiv.appendChild(div);
+        }
     }
 
     updateContent(pages[0].content);

@@ -39,64 +39,72 @@ document.addEventListener('DOMContentLoaded', function () {
         { name: 'Blueberry', price: 13.20, image: './assets/zaza/blueberry-automatic.jpeg' },
         { name: 'Lemon Haze', price: 18.90, image: './assets/zaza/lemonhaze.jpeg' }
     ];
-
     
-
+    const sidebar = document.createElement('div')
+    const cartContent = document.createElement('div')
+    const cartHeader = document.createElement('div')
+    const cartItems = document.createElement('div')
+    const cartActions = document.createElement('div')
+    const image = document.createElement('img')
+    
+    
     const cartList = [];
 
     pages[0].content = products;
 
     const navbar = document.createElement('nav');
     const ul = document.createElement('ul');
-
+    
     const title = document.createElement('img');
     title.src = './assets/blue_logo.jpg'
-
+    
     const cart = document.createElement('img')
     cart.src = './assets/cart.png'
     cart.className="cart-icon"
-
+    
+    document.body.appendChild(sidebar)
+    
     cart.addEventListener('click',function (){
-        document.body.appendChild(sidebar)
-        sidebar.style.visibility = "visible"
+        sidebar.classList.add('active')
         updateCartDisplay()
     })
-
+    
     const buyButton = document.createElement('button')
     buyButton.className = 'buy-button'
     buyButton.addEventListener('click', function () {
         if(cartList.length!==0)
             updateContent(pages[2].content);
         else{
-        alert('Put something in cart first!')
-        updateContent(pages[0].content)
-        sidebar.style.visibility = 'hidden'           
-}
+            alert('Put something in cart first!')
+            updateContent(pages[0].content)
+            sidebar.style.right = '-300px'          
+        }
     });
-
+    
     // const submitPaymentButton = document.getElementById('#purchase')
     // submitPaymentButton.addEventListener('click',function(){
-    //     alert('You will be informed about your package good luck with smoking all that shit! Going back to main page...')
-    //     updateContent(pages[0].content)
-    // })
-
-
-    let totalCartPrice = 0;
-    let totalItemsQuantity = 0;
-    function updateCartDisplay() {
-        cartItems.innerHTML = '';
-    
-        cartList.forEach(item => {
-            const cartItemRow = document.createElement('div');
-            cartItemRow.className = "cart-row"
-            cartItemRow.classList.add('cart-item-row');
-    
-            const itemName = document.createElement('span');
-            itemName.textContent = item.name+ "\t-\t";
-    
-            const itemTotalPrice = document.createElement('span');
-            let price = (item.price * item.quantity).toFixed(2)
-            totalCartPrice+=Number(price);
+        //     alert('You will be informed about your package good luck with smoking all that shit! Going back to main page...')
+        //     updateContent(pages[0].content)
+        // })
+        
+        
+        let totalCartPrice = 0;
+        let totalItemsQuantity = 0;
+        function updateCartDisplay() {
+            cartItems.innerHTML = '';
+            totalItemsQuantity = 0;
+            totalCartPrice = 0;
+            cartList.forEach(item => {
+                const cartItemRow = document.createElement('div');
+                cartItemRow.className = "cart-row"
+                cartItemRow.classList.add('cart-item-row');
+                
+                const itemName = document.createElement('span');
+                itemName.textContent = item.name+ "\t-\t";
+                
+                const itemTotalPrice = document.createElement('span');
+                let price = (item.price * item.quantity).toFixed(2)
+                totalCartPrice+=Number(price);
             itemTotalPrice.textContent = price+"$";
             totalItemsQuantity+=Number(item.quantity)
             
@@ -112,25 +120,18 @@ document.addEventListener('DOMContentLoaded', function () {
         cartItems.appendChild(totalPrice)
         cartItems.appendChild(buyButton)
         buyButton.innerText = `Buy ${totalItemsQuantity} grams`
-
-
-
+        
+        
+        
         updateCartBadge();
     }
     
     
-    const sidebar = document.createElement('div')
-    const cartContent = document.createElement('div')
-    const cartHeader = document.createElement('div')
-    const cartItems = document.createElement('div')
-    const cartActions = document.createElement('div')
-    const image = document.createElement('img')
     image.src = './assets/black-cart.png'
     cartItems.innerText = cartList.forEach(element => {
         element.name + element.quantity + element.price
     });
     
-
     sidebar.className = 'sidecart'
     cartContent.className = 'cart-content'
     cartHeader.className = 'cart-header'
@@ -138,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
     cartActions.className = 'cart-actions' 
     
     image.addEventListener("click",function (){
-        sidebar.style.visibility = "hidden"
+        sidebar.classList.remove('active')
     })
     
     sidebar.appendChild(cartContent)
@@ -260,7 +261,6 @@ document.addEventListener('DOMContentLoaded', function () {
             <div className="footer-content">
                 <h2 className="copyright">Copyright 2024</h2>
                 <h2 className="template">Cali Zaza Shop &copy;</h2>
-                
             </div>
         `;
         return footerMobile;
@@ -291,6 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.classList.add('card');
 
                 const image = document.createElement('img');
+                
                 image.src = product.image;
                 image.className = 'card-img';
 
@@ -320,7 +321,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.appendChild(price);
                 card.appendChild(minusButton);
                 card.appendChild(plusButton);
-
                 contentDiv.appendChild(card);
             });
         } else {
@@ -481,3 +481,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateContent(pages[0].content);
 });
+// strona sie scrolluje w bok huj wie czemu, koszyk nalicza fhuj siana, navbar odpierdala maniane

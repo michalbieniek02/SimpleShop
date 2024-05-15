@@ -203,9 +203,14 @@ nav ul li a:hover {
   width: 300px;
   background-color: rgb(255, 255, 255);
   box-shadow: -10px 0 15p lightgray;
-  visibility: hidden;
-  transition: all 0.3s;
+  transform: translateX(100%);
+  transition: all ease-in-out 0.3s;
   justify-content: center;
+}
+
+.sidecart.active{
+  transform: translateX(0);
+
 }
 .cart-content{
   height: 100%;
@@ -421,7 +426,7 @@ text-align: end;
 }
 
 .input_field[type=number] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 
